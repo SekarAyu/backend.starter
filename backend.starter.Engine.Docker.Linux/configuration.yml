@@ -1,0 +1,78 @@
+﻿orm:
+  connection:
+    databaseType: MSSQL2012
+    connectionString: "Server=tcp:(local),1433;Database=bekenstarter;User ID=sa;Password=DevOpsQSI123@!"
+  helper:
+    showSql: false
+    formatSql: false
+  build:
+    create: false
+    update: false
+    scriptPath: SqlScript
+    scriptFileName: build.sql
+  map:
+    assemblies:
+      - QSI.Security.Repository.NHibernate
+      - backend.starter.Repository.NHibernate
+
+jwt:
+  issuer: "https://mobile.dev.quadrant-si.id/agentdev/"
+  key: SOME_RANDOM_KEY_DO_NOT_SHARE
+  client: QMAGENT
+  expiredInMinutes: 30
+  requireHttpsMetadata: false
+  saveToken: true
+
+automapper:
+  - QSI.Security.Service
+  - backend.starter.Service
+
+cors:
+  credentials: false
+  origins:
+    - "*"
+  headers:
+    - "*"
+  methods:
+    - "*"
+
+swagger:
+  securityDefinition: JWT
+  versioningMethod:
+    - type: HEADER
+      value: 'api-version'
+  behindProxy: false
+  generator:
+    doc:
+      name: v1
+      info:
+        title: backend.starter API
+        version: '1.0'
+    describeAllEnumsAsStrings: true
+  route: 
+    template: 'api/docs/{documentName}/swagger.json'
+  ui:
+    prefix: api/docs
+    documentTitle: backend.starter API
+    endpoint:
+      url: /swagger.json
+      name: backend.starter API
+
+masstransit:
+  masstransitConfiguration:
+    baseUrl: rabbitmq://localhost:5672/camunda_vhost
+    username: user
+    password: password
+    endpoints:
+      - queueName: example-service
+        messageRetry: 
+          retryCount: 3
+          retryInterval: 3000
+        consumers:
+  messageBroker: RabbitMQ
+
+quartz:
+  instanceName: Example API Scheduler
+  jobStoreType: "RAM"
+  threadCount: 3
+  scheduler:

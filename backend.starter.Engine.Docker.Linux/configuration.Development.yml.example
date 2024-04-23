@@ -1,0 +1,12 @@
+orm:
+  connection:
+    connectionString: "Server=tcp:localhost,1433;Database=agentdev;User ID=sa;Password=DevOpsQSI123@!"
+  helper:
+    showSql: true
+    formatSql: true
+  build:
+    create: false
+    update: true
+masstransit:
+  masstransitConfiguration:
+    baseUrl: rabbitmq://localhost:5672/qsi_vhost
